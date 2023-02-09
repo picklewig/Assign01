@@ -115,7 +115,10 @@ IntSet IntSet::intersect(const IntSet& otherIntSet) const{
             }
         }
     }
-   return intersectSet;
+    if(intersectSet.size() == 0){
+        intersectSet.reset();
+    }
+    return intersectSet;
 }
 
 IntSet IntSet::subtract(const IntSet& otherIntSet) const{
@@ -134,12 +137,20 @@ IntSet IntSet::subtract(const IntSet& otherIntSet) const{
 }
 
 void IntSet::reset(){
-   cout << "reset() is not implemented yet..." << endl;
+   for(int value : data){
+       value = NULL;
+   }
+   used = 0;
 }
 
 bool IntSet::add(int anInt){
-   cout << "add() is not implemented yet..." << endl;
-   return false; // dummy value returned
+   bool added = false;
+   if(!contains(anInt) and (size() < MAX_SIZE)){
+       data[used] = anInt;
+       used++;
+       added = true;
+   }
+   return added;
 }
 
 bool IntSet::remove(int anInt){
@@ -160,6 +171,14 @@ bool IntSet::remove(int anInt){
 }
 
 bool equal(const IntSet& is1, const IntSet& is2){
-   cout << "equal() is not implemented yet..." << endl;
-   return false; // dummy value returned
+   bool isEqual = true;
+   if(is1.size() == is2.size()){
+       if((is1.subtract(is2)).size() > 0){
+           isEqual = false;
+       }
+   }
+   else{
+       isEqual = false;
+   }
+   return isEqual;
 }
