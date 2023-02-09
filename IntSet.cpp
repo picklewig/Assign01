@@ -92,8 +92,7 @@ IntSet IntSet::unionWith(const IntSet& otherIntSet) const{
     if(size() + (otherIntSet.subtract(otherIntSet)).size() <= MAX_SIZE){
         for(int index{0}; index < otherIntSet.used; index++){
             if(!contains(otherIntSet.data[index])){
-                data[used] = otherIntSet.data[index];
-                used++;
+                IntSet().add(otherIntSet.data[index]);
             }
         }
     }
@@ -126,10 +125,10 @@ bool IntSet::remove(int anInt){
    for(int index{0}; index < used; index++){
        if(data[index] == anInt){
            int temp = index;
-           while(data[temp+1] != NULL){
+           while(data[temp+1]){
                data[temp] = data[temp+1];
+               temp++;
            }
-           data[used] = NULL;
            used--;
            removed = true;
        }
