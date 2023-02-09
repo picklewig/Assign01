@@ -74,7 +74,7 @@ bool IntSet::isSubsetOf(const IntSet& otherIntSet) const{
            }
        }
    }
-   if(used == 0){
+   if(isEmpty()){
        isSubset = true;
    }
    return isSubset;
@@ -89,26 +89,48 @@ void IntSet::DumpData(ostream& out) const{  // already implemented ... DON'T cha
 }
 
 IntSet IntSet::unionWith(const IntSet& otherIntSet) const{
+    IntSet unionSet;
     if(size() + (otherIntSet.subtract(otherIntSet)).size() <= MAX_SIZE){
+        for(int index{0}; index < used; index++){
+            unionSet.add(data[index]);
+        }
         for(int index{0}; index < otherIntSet.used; index++){
             if(!contains(otherIntSet.data[index])){
-                IntSet().add(otherIntSet.data[index]);
+                unionSet.add(otherIntSet.data[index]);
             }
         }
     }
-    return IntSet();
+    return unionSet;
 }
 
 IntSet IntSet::intersect(const IntSet& otherIntSet) const{
+    IntSet intersectSet;
     if(size() + (otherIntSet.subtract(otherIntSet)).size() <= MAX_SIZE){
-
+        for(int index{0}; index < used; index++){
+            intersectSet.add(data[index]);
+        }
+        for(int index{0}; index < used; index++){
+            if(!otherIntSet.contains(data[index])){
+                intersectSet.remove(data[index]);
+            }
+        }
     }
-   return IntSet(); // dummy IntSet object returned
+   return intersectSet;
 }
 
 IntSet IntSet::subtract(const IntSet& otherIntSet) const{
-   cout << "subtract() is not implemented yet..." << endl;
-   return IntSet(); // dummy IntSet object returned
+   IntSet differenceSet;
+   for(int index{0}; index < used; index++){
+       if(!otherIntSet.contains(data[index])){
+           differenceSet.add(data[index]);
+       }
+   }
+   for(int index{0}; index < otherIntSet.used; index++){
+       if(!contains(otherIntSet.data[index])){
+           differenceSet.add(otherIntSet.data[index]);
+       }
+   }
+   return differenceSet;
 }
 
 void IntSet::reset(){
@@ -129,6 +151,7 @@ bool IntSet::remove(int anInt){
                data[temp] = data[temp+1];
                temp++;
            }
+           data[used] = NULL;
            used--;
            removed = true;
        }
