@@ -66,26 +66,44 @@ bool IntSet::contains(int anInt) const{
 }
 
 bool IntSet::isSubsetOf(const IntSet& otherIntSet) const{
-   cout << "isSubsetOf() is not implemented yet..." << endl;
-   return false; // dummy value returned
+   bool isSubset = false;
+   if(used <= otherIntSet.used){
+       for(int index{0}; index < used; index++){
+           if(otherIntSet.contains(data[index])){
+               isSubset = true;
+           }
+       }
+   }
+   if(used == 0){
+       isSubset = true;
+   }
+   return isSubset;
 }
 
 void IntSet::DumpData(ostream& out) const{  // already implemented ... DON'T change anything
-   if (used > 0)
-   {
+    if(used > 0){
       out << data[0];
       for (int i = 1; i < used; ++i)
          out << "  " << data[i];
-   }
+    }
 }
 
 IntSet IntSet::unionWith(const IntSet& otherIntSet) const{
-   cout << "unionWith() is not implemented yet..." << endl;
-   return IntSet(); // dummy IntSet object returned
+    if(size() + (otherIntSet.subtract(otherIntSet)).size() <= MAX_SIZE){
+        for(int index{0}; index < otherIntSet.used; index++){
+            if(!contains(otherIntSet.data[index])){
+                data[used] = otherIntSet.data[index];
+                used++;
+            }
+        }
+    }
+    return IntSet();
 }
 
 IntSet IntSet::intersect(const IntSet& otherIntSet) const{
-   cout << "intersect() is not implemented yet..." << endl;
+    if(size() + (otherIntSet.subtract(otherIntSet)).size() <= MAX_SIZE){
+
+    }
    return IntSet(); // dummy IntSet object returned
 }
 
@@ -104,8 +122,19 @@ bool IntSet::add(int anInt){
 }
 
 bool IntSet::remove(int anInt){
-   cout << "remove() is not implemented yet..." << endl;
-   return false; // dummy value returned
+   bool removed = false;
+   for(int index{0}; index < used; index++){
+       if(data[index] == anInt){
+           int temp = index;
+           while(data[temp+1] != NULL){
+               data[temp] = data[temp+1];
+           }
+           data[used] = NULL;
+           used--;
+           removed = true;
+       }
+   }
+   return removed;
 }
 
 bool equal(const IntSet& is1, const IntSet& is2){
