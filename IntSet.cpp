@@ -43,37 +43,29 @@
 
 #include "IntSet.h"
 
-IntSet::IntSet()
-{
-   cout << "IntSet() is not implemented yet..." << endl;
+IntSet::IntSet(){
+   used = 0;
 }
 
-int IntSet::size() const
-{
-   cout << "size() is not implemented yet..." << endl;
-   return 0; // dummy value returned
+int IntSet::size() const{
+   return used;
 }
 
-bool IntSet::isEmpty() const
-{
-   cout << "isEmpty() is not implemented yet..." << endl;
-   return false; // dummy value returned
+bool IntSet::isEmpty() const{
+   return used == 0;
 }
 
-bool IntSet::contains(int anInt) const
-{
+bool IntSet::contains(int anInt) const{
    cout << "contains() is not implemented yet..." << endl;
    return 0; // dummy value returned
 }
 
-bool IntSet::isSubsetOf(const IntSet& otherIntSet) const
-{
+bool IntSet::isSubsetOf(const IntSet& otherIntSet) const{
    cout << "isSubsetOf() is not implemented yet..." << endl;
    return false; // dummy value returned
 }
 
-void IntSet::DumpData(ostream& out) const
-{  // already implemented ... DON'T change anything
+void IntSet::DumpData(ostream& out) const{  // already implemented ... DON'T change anything
    if (used > 0)
    {
       out << data[0];
@@ -82,43 +74,36 @@ void IntSet::DumpData(ostream& out) const
    }
 }
 
-IntSet IntSet::unionWith(const IntSet& otherIntSet) const
-{
+IntSet IntSet::unionWith(const IntSet& otherIntSet) const{
    cout << "unionWith() is not implemented yet..." << endl;
    return IntSet(); // dummy IntSet object returned
 }
 
-IntSet IntSet::intersect(const IntSet& otherIntSet) const
-{
+IntSet IntSet::intersect(const IntSet& otherIntSet) const{
    cout << "intersect() is not implemented yet..." << endl;
    return IntSet(); // dummy IntSet object returned
 }
 
-IntSet IntSet::subtract(const IntSet& otherIntSet) const
-{
+IntSet IntSet::subtract(const IntSet& otherIntSet) const{
    cout << "subtract() is not implemented yet..." << endl;
    return IntSet(); // dummy IntSet object returned
 }
 
-void IntSet::reset()
-{
+void IntSet::reset(){
    cout << "reset() is not implemented yet..." << endl;
 }
 
-bool IntSet::add(int anInt)
-{
+bool IntSet::add(int anInt){
    cout << "add() is not implemented yet..." << endl;
    return false; // dummy value returned
 }
 
-bool IntSet::remove(int anInt)
-{
+bool IntSet::remove(int anInt){
    cout << "remove() is not implemented yet..." << endl;
    return false; // dummy value returned
 }
 
-bool equal(const IntSet& is1, const IntSet& is2)
-{
+bool equal(const IntSet& is1, const IntSet& is2){
    cout << "equal() is not implemented yet..." << endl;
    return false; // dummy value returned
 }
