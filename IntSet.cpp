@@ -72,6 +72,9 @@ bool IntSet::isSubsetOf(const IntSet& otherIntSet) const{
            }
        }
    }
+   if(isEmpty()){
+       isSubset = true;
+   }
    return isSubset;
 }
 
