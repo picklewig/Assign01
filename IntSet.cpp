@@ -43,9 +43,7 @@
 
 #include "IntSet.h"
 
-IntSet::IntSet(){
-   used = 0;
-}
+IntSet::IntSet(): used(0){}
 
 int IntSet::size() const{
    return used;
@@ -66,16 +64,13 @@ bool IntSet::contains(int anInt) const{
 }
 
 bool IntSet::isSubsetOf(const IntSet& otherIntSet) const{
-   bool isSubset = false;
+   bool isSubset = true;
    if(used <= otherIntSet.used){
        for(int index{0}; index < used; index++){
-           if(otherIntSet.contains(data[index])){
-               isSubset = true;
+           if(!otherIntSet.contains(data[index])){
+               isSubset = false;
            }
        }
-   }
-   if(isEmpty()){
-       isSubset = true;
    }
    return isSubset;
 }
@@ -90,14 +85,13 @@ void IntSet::DumpData(ostream& out) const{  // already implemented ... DON'T cha
 
 IntSet IntSet::unionWith(const IntSet& otherIntSet) const{
     IntSet unionSet;
-    if(size() + (otherIntSet.subtract(otherIntSet)).size() <= MAX_SIZE){
-        for(int index{0}; index < used; index++){
-            unionSet.add(data[index]);
-        }
-        for(int index{0}; index < otherIntSet.used; index++){
-            if(!contains(otherIntSet.data[index])){
-                unionSet.add(otherIntSet.data[index]);
-            }
+    assert(size() + (otherIntSet.subtract(otherIntSet)).size() <= MAX_SIZE);
+    for(int index{0}; index < used; index++){
+        unionSet.add(data[index]);
+    }
+    for(int index{0}; index < otherIntSet.used; index++){
+        if(!contains(otherIntSet.data[index])){
+            unionSet.add(otherIntSet.data[index]);
         }
     }
     return unionSet;
@@ -105,14 +99,12 @@ IntSet IntSet::unionWith(const IntSet& otherIntSet) const{
 
 IntSet IntSet::intersect(const IntSet& otherIntSet) const{
     IntSet intersectSet;
-    if(size() + (otherIntSet.subtract(otherIntSet)).size() <= MAX_SIZE){
-        for(int index{0}; index < used; index++){
-            intersectSet.add(data[index]);
-        }
-        for(int index{0}; index < used; index++){
-            if(!otherIntSet.contains(data[index])){
-                intersectSet.remove(data[index]);
-            }
+    for(int index{0}; index < used; index++){
+        intersectSet.add(data[index]);
+    }
+    for(int index{0}; index < used; index++){
+        if(!otherIntSet.contains(data[index])){
+            intersectSet.remove(data[index]);
         }
     }
     if(intersectSet.size() == 0){
@@ -121,6 +113,7 @@ IntSet IntSet::intersect(const IntSet& otherIntSet) const{
     return intersectSet;
 }
 
+//one direction difference
 IntSet IntSet::subtract(const IntSet& otherIntSet) const{
    IntSet differenceSet;
    for(int index{0}; index < used; index++){
@@ -128,18 +121,10 @@ IntSet IntSet::subtract(const IntSet& otherIntSet) const{
            differenceSet.add(data[index]);
        }
    }
-   for(int index{0}; index < otherIntSet.used; index++){
-       if(!contains(otherIntSet.data[index])){
-           differenceSet.add(otherIntSet.data[index]);
-       }
-   }
    return differenceSet;
 }
 
 void IntSet::reset(){
-   for(int value : data){
-       value = NULL;
-   }
    used = 0;
 }
 
@@ -150,6 +135,7 @@ bool IntSet::add(int anInt){
        used++;
        added = true;
    }
+   assert(added);
    return added;
 }
 
@@ -158,11 +144,10 @@ bool IntSet::remove(int anInt){
    for(int index{0}; index < used; index++){
        if(data[index] == anInt){
            int temp = index;
-           while(data[temp+1]){
+           while(temp < used){
                data[temp] = data[temp+1];
                temp++;
            }
-           data[used] = NULL;
            used--;
            removed = true;
        }
